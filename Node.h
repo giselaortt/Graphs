@@ -1,26 +1,47 @@
-#include "Key.h"
-
 #ifndef NODE_H
 #define NODE_H
+
+#include "Vertex.h"
+#include <stdlib.h>
 
 class Node{
 private:
 	Node* left;
 	Node* right;
 	Node* dad;
-	Key* key;
-	int numOfKids;
 	int descendents;
+	double keyvalue;
+//	Vertex* key;
+//	Vertex* parent;
+	int key;
+	int parent;
 
 public:
-	Node( Key* key ){
+
+	Node() {
+		this->left = this->dad = this->right = NULL;
+	}
+
+	Node( int key, int parent, double weight ){
 		this->left = NULL;
 		this->right = NULL;
 		this->key = key;
 		this->dad = NULL;
-		this->numOfKids = 0;
 		this->descendents = 0;
+		this->keyvalue = weight;
+		this->parent = parent;
 	}
+/*
+	Node( int key, int parent, double weight ){
+		this->left = NULL;
+		this->right = NULL;
+		this->key = key;
+		this->dad = NULL;
+		this->descendents = 0;
+		this->keyvalue = weight;
+		this->parent = parent;
+	}
+*/
 	void swapKey( Node* first );
 
 	int getDescendents();
@@ -28,17 +49,14 @@ public:
 	void addDescendent();
 
 	void subDescendent();
-	
-//	Not working
-//	bool operator > ( Node* n ) const;
 
+	void setDescendents( int );
+	
 	Node* getLeft();
 
 	Node* getDad();
 
 	Node* getRight();
-
-	int getNumOfKids();
 
 	void setLeft( Node* n );
 
@@ -46,10 +64,25 @@ public:
 
 	void setDad( Node* d );
 
-	Key* getKey( ) ;
+//	Vertex* getKey( ) ;
 
-	void setKey( Key* mykey );
+	int getKey( ) ;
 
+	void setKey( int  mykey );
+	//void setKey( Vertex* mykey );
+
+	//void setParent( Vertex* );
+	void setParent( int );
+
+//	Vertex* getParent();
+
+	int getParent();
+
+	void updateKeyValue( double newvalue );
+
+	double getKeyValue();
+
+	int getIndex();
 };
 
 #endif

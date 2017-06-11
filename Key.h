@@ -1,21 +1,24 @@
 #ifndef KEY_H
 #define KEY_H
  
-class Key{
-	private:
-	int value;
+#include "Vertex.h"
 
+class Key{
 	public:
-	Key( int value ){
+	int value;
+	Vertex* vert;
+	Vertex* parent;
+
+	Key( int value, Vertex* f, Vertex* s = NULL ){
 		this->value = value;
+		this->first = f;
+		this->parent = s;
 	}
+
 	int getValue();
 	void setValue( int value );
 	Key* copyOf();
 	bool operator < ( Key b ) ;
-//	bool operator > ( Key b ) const ;
-//	bool operator <= ( Key b ) const ;
-//	bool operator >= ( Key b ) const ;
 	void print();
 };
 

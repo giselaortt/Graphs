@@ -1,8 +1,10 @@
-#include <bits/stdc++.h>
-#include "Node.h"
-#include "Key.h"
+#ifndef _HEAP_H
+#define _HEAP_H
 
-// vai sempre ordenar por ordem crescente
+#include <stdlib.h>
+#include "Node.h"
+#include "Vertex.h"
+
 class Heap{
 private:
 	Node* root;
@@ -19,10 +21,14 @@ public:
 	}
 
 	int getSize();
-
+	
 	void dump();
+	
+	void setRoot(Node *);
+	
+//	void swapNode2( Node* a, Node* b );
 
-	void push( Key* k );
+	void swapNode( Node* a, Node* b );
 
 	void push( Node* novo );
 
@@ -32,9 +38,9 @@ public:
 
 	void dumpin( Node* no );
 
-	Key* pop();
+	Node* pop();
 
-	Key* top();
+	Node* top();
 
 	void clear( Node* mynode );
 
@@ -47,6 +53,14 @@ public:
 	Node* findLast( Node* mynode );
 
 	Node* findLast( );
+
+	void updateKeyValue( Node*, int );
+
+	double getValue( int index );
+
+	void updateParent( Node*, Vertex* );
+
+	Node* getNode( int index );
 };
 
-
+#endif
