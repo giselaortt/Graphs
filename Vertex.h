@@ -10,12 +10,9 @@ private:
 	int index;
 	int color;
 public:
-	Vertex( double a, double b, int i = 0, int c = 0 ){
-		this->x = a;
-		this->y = b;
-		this->index = i;
-		this->color = c;
-	}
+	Vertex( double a, double b, int i = 0, int c = 0 );
+
+	~Vertex();
 
 	int getColor();
 

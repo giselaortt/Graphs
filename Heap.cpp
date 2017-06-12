@@ -6,6 +6,17 @@
 
 using namespace std;
 
+	Heap::Heap( ){
+		this->root = NULL;
+		this->size = 0;
+	}
+
+Heap::~Heap(){}
+
+int Heap::getHeight( int x ){
+	return floor( log2( (double)(x+1) ) );
+}
+
 int Heap::getSize(){
 	return this->size;
 }

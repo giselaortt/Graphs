@@ -1,16 +1,30 @@
 #include <stdio.h>
 #include <iostream>
+#include "Vertex.h"
 #include "Edge.h"
 
 using namespace std;
 
-/*
-static bool Edge::compare( Edge* one, Edge* two ){
-	if(  one->getValue() < two->getValue() )
+Edge::Edge( double value, Vertex* f, Vertex* s ){
+	this->value = value;
+	this->first = f;
+	this->second = s;
+}
+
+Edge::Edge( Vertex* f, Vertex* s ){
+	this->first = f;
+	this->second = s;
+	this->value = f->getDistance( s );
+}
+
+Edge::~Edge(){}
+
+bool Edge::compare( Edge* one, Edge* two ){
+	if( one->getValue() < two->getValue() )
 		return true;
 	return false;
 }
-*/
+
 void Edge::print(){
 	this->first->print();
 	cout << "--->";
@@ -35,12 +49,7 @@ int Edge::getIndex(){
 void Edge::setValue( double value ){
 	this->value = value;
 }
-/*
-bool Edge::&operator < ( const Edge& b ) const {
-	if(this->value < b.value ) return true;
-	return false;
-}
-*/
+
 void Edge::setFirst( Vertex* f ){
 	this->first = f;
 }

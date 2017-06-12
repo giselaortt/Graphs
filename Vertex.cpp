@@ -2,6 +2,15 @@
 #include "Vertex.h"
 #include <stdio.h>
 
+Vertex::Vertex( double a, double b, int i, int c ){
+	this->x = a;
+	this->y = b;
+	this->index = i;
+	this->color = c;
+}
+
+Vertex::~Vertex(){}
+
 double Vertex::getx(){
 	return this->x;
 }

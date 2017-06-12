@@ -1,16 +1,24 @@
-all: key.o node.o heap.o main
+vertex.o:
+	g++ -c Vertex.cpp
 
-heap.o: node.o key.o
-	g++ Heap.cpp -c
+edge.o: Vertex.h
+	g++ -c Edge.cpp
 
-node.o: key.o
-	g++ Node.cpp -c
+unionfind.o:
+	g++ -c UnionFind.cpp
 
-key.o:
-	g++ Key.cpp -c
+node.o:
+	g++ -c Node.cpp
 
-main: node.o key.o heap.o
-	g++ main.cpp Node.o Key.o Heap.o -lm -o ex
+heap.o: Node.h
+	g++ -c Heap.cpp
 
-clean:
-	rm -rf *.o
+graph.o: Graph.cpp UnionFind.h Heap.h
+	g++ -c Graph.cpp
+
+main.o:
+	g++ -c main.cpp
+
+ex: vertex.o edge.o unionfind.o node.o heap.o graph.o main.o
+#	g++ -o ex main.cpp
+	g++ -o ex Vertex.o Edge.o UnionFind.o Node.o Heap.o Graph.o main.o

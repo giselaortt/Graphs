@@ -31,16 +31,11 @@ class Graph{
 	
 	public:
 
-	Graph(){
-		this->numOfVert = 0;
-		this->numOfEdges = 0;
-	}
+	Graph();
 
-	Graph( vector< Vertex* > v ){
-		this->vertices.reserve( v.size() );
-		for( int i=0; i<v.size(); i++ )
-			this->vertices[i] = v[i]->copy();
-	}
+	Graph( vector< Vertex* > v );
+
+	~Graph();
 
 	//Add all the vertex written in the sousce file
 	void addVertex( FILE* source );

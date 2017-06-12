@@ -16,6 +16,19 @@
 
 using namespace std;
 
+Graph::Graph(){
+	this->numOfVert = 0;
+	this->numOfEdges = 0;
+}
+
+Graph::Graph( vector< Vertex* > v ){
+	this->vertices.reserve( v.size() );
+	for( int i=0; i<v.size(); i++ )
+		this->vertices[i] = v[i]->copy();
+}
+
+Graph::~Graph(){}
+
 vector<Edge*> Graph::kruskall( int clusters ){
 	vector<Edge*>ans;
 	sort( this->edges.begin(), this->edges.end(), Edge::compare );

@@ -11,14 +11,11 @@ private:
 	int size;
 
 public:
-	Heap( ){
-		this->root = NULL;
-		this->size = 0;
-	}
+	Heap( );
 
-	static int getHeight( int x ){
-		return floor( log2( (double)(x+1) ) );
-	}
+	~Heap();
+
+	static int getHeight( int x );
 
 	int getSize();
 	

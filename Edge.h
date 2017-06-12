@@ -12,23 +12,13 @@ class Edge{
 	Vertex* second;
 
 	public:
-	Edge( double value, Vertex* f, Vertex* s ){
-		this->value = value;
-		this->first = f;
-		this->second = s;
-	}
+	Edge( double value, Vertex* f, Vertex* s );
 
-	Edge( Vertex* f, Vertex* s ){
-		this->first = f;
-		this->second = s;
-		this->value = f->getDistance( s );
-	}
+	Edge( Vertex* f, Vertex* s );
 
-	static bool compare( Edge* one, Edge* two ){
-		if(  one->getValue() < two->getValue() )
-			return true;
-		return false;
-	}
+	~Edge();
+
+	static bool compare( Edge* one, Edge* two );
 
 	int getIndex();
 

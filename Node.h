@@ -18,19 +18,11 @@ private:
 
 public:
 
-	Node() {
-		this->left = this->dad = this->right = NULL;
-	}
+	Node();
 
-	Node( int key, int parent, double weight ){
-		this->left = NULL;
-		this->right = NULL;
-		this->key = key;
-		this->dad = NULL;
-		this->descendents = 0;
-		this->keyvalue = weight;
-		this->parent = parent;
-	}
+	Node( int key, int parent, double weight );
+
+	~Node();
 /*
 	Node( int key, int parent, double weight ){
 		this->left = NULL;
