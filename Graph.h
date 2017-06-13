@@ -52,6 +52,8 @@ class Graph{
 	//Returns number os vertices created
 	int getNumOfVertex();
 
+	int getNumOfEdges(){ return this->numOfEdges; }
+
 	private:
 	//Uses dfs as a way to color all the vertex. Its keept as private since its an auxiliary method for color method.
 	void dfs( Vertex* vert, int color );
@@ -76,7 +78,7 @@ class Graph{
 	double primsum();
 
 	// rebuilds graph acording to a new list od edges
-	void build( vector<Edge*> vet );
+	void addEdge( vector<Edge*> vet );
 
 	//bool compare( Edge* first, Edge* sec );
 

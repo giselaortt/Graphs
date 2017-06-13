@@ -1,5 +1,5 @@
-#include "Graph.h"
 #include "Vertex.h"
+#include "Graph.h"
 #include "UnionFind.h"
 #include "Edge.h"
 #include "Node.h"
@@ -27,7 +27,9 @@ Graph::Graph( vector< Vertex* > v ){
 		this->vertices[i] = v[i]->copy();
 }
 
-Graph::~Graph(){}
+Graph::~Graph(){
+	this->clear();
+}
 
 vector<Edge*> Graph::kruskall( int clusters ){
 	vector<Edge*>ans;
@@ -36,7 +38,7 @@ vector<Edge*> Graph::kruskall( int clusters ){
 	
 	for( int i=0; i < this->numOfEdges && u.getGroups() != clusters ; i++){
 		//printf("%d\n", u.getGroups() );
-		if( u.merge( this->edges[i]->getFirst()->getIndex(), this->edges[i]->getSecond()->getIndex() ) )
+		if( u.merge( this->edges[i]->getFirst(), this->edges[i]->getSecond() ) )
 			ans.push_back( edges[i] );
 	}
 	u.clear();
@@ -81,10 +83,10 @@ void Graph::addVertex( FILE* source ){
 }
 
 void Graph::addEdge( int ind, int ind2 ){
-	if( ind == ind2 || ind > this->numOfVert || this->numOfVert < ind2 ) return;
+	if( ind > this->numOfVert || this->numOfVert < ind2 ) return;
 	Vertex* aux1 = this->vertices[ind];
 	Vertex* aux2 = this->vertices[ind2];
-	this->edges.push_back( new Edge( aux1, aux2 ) );
+	this->edges.push_back( new Edge( ind, ind2, aux1->getDistance( aux2 ) ) );
 	this->adjlist[ ind ].push_back( aux2 );
 	this->adjlist[ ind2 ].push_back( aux1 );
 	this->numOfEdges++;
@@ -93,30 +95,13 @@ void Graph::addEdge( int ind, int ind2 ){
 void Graph::addEdge( Vertex* one, Vertex* two ){
 	this->adjlist[ one->getIndex() ].push_back( two );
 	this->adjlist[ two->getIndex() ].push_back( one );
-	this->edges.push_back( new Edge( one, two ) );
+	this->edges.push_back( new Edge( one->getIndex(), two->getIndex(), one->getDistance( two ) ) );
 	this->numOfEdges++;
 }
 
-bool Graph::contains( vector<Edge*> v, Edge* ed ){
-	for( int i=0; i<v.size(); i++ )
-		if( v[i] == ed ) return true;
-	return false;
-}
-
-void Graph::build( vector< Edge* > vet ){
-	this->clearAdjacencyList();
-	int j=0;
-	for( int i=0 ; i<vet.size(); j++ ){
-		if( this->edges[j] == this->edges[i] ) i++;
-		else delete( this->edges[j] );
-	}
-	this->edges = vet;
-	Vertex *one, *two;
+void Graph::addEdge( vector< Edge* > vet ){
 	for( int i=0; i < vet.size(); i++ ){
-		one = vet[i]->getFirst();
-		two = vet[i]->getSecond();
-		this->adjlist[ one->getIndex() ].push_back( two );
-		this->adjlist[ two->getIndex() ].push_back( one );
+		this->addEdge( vet[i]->getFirst(), vet[i]->getSecond() );
 	}
 }
 
@@ -137,9 +122,8 @@ int Graph::color(){
 }
 
 void Graph::printColors(){
-	for( int i=0; i< this->numOfVert; i++ ){
+	for( int i=0; i< this->numOfVert; i++ )
 		printf("%d\n", this->vertices[i]->getColor() );
-	}
 }
 
 void Graph::printColors( FILE* fp ){
@@ -176,7 +160,7 @@ vector< Edge* > Graph::prim(){
 		if( included[ atual ] == false ){
 			included[ atual ] = true;
 			prices[ atual ] = no->getKeyValue();
-			mst.push_back( new Edge(no->getKeyValue(), this->vertices[ atual ], this->vertices[ no->getParent() ]) );
+			mst.push_back( new Edge(no->getKeyValue(), atual, no->getParent() ) );
 
 			for( it = this->adjlist[0].begin(); it != this->adjlist[0].end(); it++ ){
 				double distance = this->vertices[ atual ]->getDistance( (*it) );
