@@ -21,7 +21,7 @@ class Graph{
 	int numOfEdges;
 
 	// usado no algoritimo de kruskall
-	vector< Edge* > edges;
+	vector< Edge > edges;
 
 	// usado no algoritmo de prim
 	vector< Vertex* > vertices;
@@ -47,7 +47,8 @@ class Graph{
 	//it puts the distance as weight
 	void addEdge( int ind, int ind2 );
 
-	void addEdge( Edge* );
+	// rebuilds graph acording to a new list od edges
+	void addEdge( vector<Edge> vet );
 
 	//Returns number os vertices created
 	int getNumOfVertex();
@@ -70,24 +71,16 @@ class Graph{
 	void printColors(FILE* fp );
 
 	//Creates minimim spanning tree acording to kruskall's algorithm
-	vector<Edge*> kruskall( int );
+	vector<Edge> kruskall( int );
 
 	//Creates minimim spanning tree acording to prim's algorithm
-	vector<Edge*> prim();
+	vector<Edge> prim();
 
 	double primsum();
-
-	// rebuilds graph acording to a new list od edges
-	void addEdge( vector<Edge*> vet );
-
-	//bool compare( Edge* first, Edge* sec );
 
 	void addEdge( Vertex*, Vertex* );
 	
 	void clear();
-
-	// auxiliary function from rebuildAdjacency
-	bool contains( vector<Edge*> v, Edge* ed );
 
 	int connectedComponents();
 };

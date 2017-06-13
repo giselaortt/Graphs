@@ -33,17 +33,14 @@ int main(){
 		for( int j = i + 1; j < g->getNumOfVertex(); j++ )
 			g->addEdge( i, j );
 
-	vector<Edge*> mstk = g->kruskall( clusteres );
-	vector<Edge*> mstp = g->prim();
+	vector<Edge> mstk = g->kruskall( clusteres );
+	vector<Edge> mstp = g->prim();
 	sort( mstp.begin(), mstp.end(), Edge::compare );
 	for( int i=0; i<clusteres-1; i++ )
 		mstp.pop_back();
 
 	k->addEdge( mstk );
 	p->addEdge( mstp );
-
-	printf("%d %d\n", k->getNumOfEdges(), k->getNumOfVertex() );
-	printf("%d %d\n", p->getNumOfEdges(), p->getNumOfVertex() );
 
 	k->color();
 	p->color();

@@ -19,8 +19,8 @@ Edge::Edge( int f, int s ){
 */
 Edge::~Edge(){}
 
-bool Edge::compare( Edge* one, Edge* two ){
-	if( one->getValue() < two->getValue() )
+bool Edge::compare( Edge one, Edge two ){
+	if( one.getValue() < two.getValue() )
 		return true;
 	return false;
 }

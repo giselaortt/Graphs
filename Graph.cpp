@@ -31,16 +31,13 @@ Graph::~Graph(){
 	this->clear();
 }
 
-vector<Edge*> Graph::kruskall( int clusters ){
-	vector<Edge*>ans;
+vector<Edge> Graph::kruskall( int clusters ){
+	vector<Edge>ans;
 	sort( this->edges.begin(), this->edges.end(), Edge::compare );
 	UnionFind u( this->numOfVert );
-	
-	for( int i=0; i < this->numOfEdges && u.getGroups() != clusters ; i++){
-		//printf("%d\n", u.getGroups() );
-		if( u.merge( this->edges[i]->getFirst(), this->edges[i]->getSecond() ) )
+	for( int i=0; i < this->numOfEdges && u.getGroups() != clusters ; i++)
+		if( u.merge( this->edges[i].getFirst(), this->edges[i].getSecond() ) )
 			ans.push_back( edges[i] );
-	}
 	u.clear();
 	return ans;
 }
@@ -52,12 +49,6 @@ void Graph::clearAdjacencyList(){
 }
 
 void Graph::clear() {
-	for(int i=0; i < this->edges.size(); i++ ){
-		delete( this->edges[i] );
-	}
-	for( int i=0; i< this->vertices.size(); i++ ){
-		delete( this->vertices[i] );
-	}
 	this->edges.clear();
 	this->vertices.clear();
 	this->clearAdjacencyList();
@@ -86,7 +77,7 @@ void Graph::addEdge( int ind, int ind2 ){
 	if( ind > this->numOfVert || this->numOfVert < ind2 ) return;
 	Vertex* aux1 = this->vertices[ind];
 	Vertex* aux2 = this->vertices[ind2];
-	this->edges.push_back( new Edge( ind, ind2, aux1->getDistance( aux2 ) ) );
+	this->edges.push_back( Edge( aux1->getDistance( aux2 ), ind, ind2 ) );
 	this->adjlist[ ind ].push_back( aux2 );
 	this->adjlist[ ind2 ].push_back( aux1 );
 	this->numOfEdges++;
@@ -95,14 +86,13 @@ void Graph::addEdge( int ind, int ind2 ){
 void Graph::addEdge( Vertex* one, Vertex* two ){
 	this->adjlist[ one->getIndex() ].push_back( two );
 	this->adjlist[ two->getIndex() ].push_back( one );
-	this->edges.push_back( new Edge( one->getIndex(), two->getIndex(), one->getDistance( two ) ) );
+	this->edges.push_back( Edge( one->getIndex(), two->getIndex(), one->getDistance( two ) ) );
 	this->numOfEdges++;
 }
 
-void Graph::addEdge( vector< Edge* > vet ){
-	for( int i=0; i < vet.size(); i++ ){
-		this->addEdge( vet[i]->getFirst(), vet[i]->getSecond() );
-	}
+void Graph::addEdge( vector< Edge > vet ){
+	for( int i=0; i < vet.size(); i++ )
+		this->addEdge( vet[i].getFirst(), vet[i].getSecond() );
 }
 
 void Graph::dfs( Vertex* vert, int color ){
@@ -131,9 +121,9 @@ void Graph::printColors( FILE* fp ){
 		fprintf(fp, "%lf %lf %d\n", this->vertices[i]->getx(), this->vertices[i]->gety(),this->vertices[i]->getColor());
 }
 
-vector< Edge* > Graph::prim(){
+vector< Edge > Graph::prim(){
 	Heap* heap = new Heap();
-	vector< Edge* > mst;
+	vector< Edge > mst;
 	list< Vertex* >::iterator it;
 	bool included[ this->numOfVert ];
 	double prices[ this->numOfVert ];
@@ -154,13 +144,14 @@ vector< Edge* > Graph::prim(){
 		heap->push( new Node( (*it)->getIndex(), atual, distance ) );
 		prices[ (*it)->getIndex() ] = distance;
 	}
+
 	while( mst.size() < this->numOfVert - 1 && heap->getSize() ){
 		no = heap->pop();
 		atual = no->getKey();
 		if( included[ atual ] == false ){
 			included[ atual ] = true;
 			prices[ atual ] = no->getKeyValue();
-			mst.push_back( new Edge(no->getKeyValue(), atual, no->getParent() ) );
+			mst.push_back( Edge(no->getKeyValue(), atual, no->getParent() ) );
 
 			for( it = this->adjlist[0].begin(); it != this->adjlist[0].end(); it++ ){
 				double distance = this->vertices[ atual ]->getDistance( (*it) );
